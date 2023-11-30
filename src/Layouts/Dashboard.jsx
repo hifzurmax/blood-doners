@@ -2,6 +2,8 @@ import { NavLink, Outlet } from "react-router-dom";
 
 
 const Dashboard = () => {
+    // TODO: Replace this with the actual user role fetched from the database
+    const userRole = "admin"; // For demonstration purposes, assuming the user is an admin
     return (
         <div className="drawer lg:drawer-open max-w-7xl mx-auto">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -16,13 +18,32 @@ const Dashboard = () => {
             </div>
             <div className="drawer-side">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                <ul className="menu p-4 space-y-1 w-64 min-h-full bg-main text-white font-bold text-lg ">
-                    {/* Sidebar content here */}
-                    <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
-                    <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
-                    <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
-                    <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
-                    <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
+                <ul className="menu p-4 pt-10 space-y-1 w-64 min-h-full bg-main text-white font-bold text-lg ">
+                    {/* Conditional rendering based on user role */}
+                    {userRole === "admin" && (
+                        <>
+                            <li><NavLink to="/dashboard/profile">Admin Profile</NavLink></li>
+                            <li><NavLink to="/dashboard/all-users">All Users</NavLink></li>
+                            <li><NavLink to="/dashboard/all-blood-donation-request
+">All Blood Donation Requests</NavLink></li>
+                            <li><NavLink to="/dashboard/content-management
+">Content Management</NavLink></li>
+
+                        </>
+                    )}
+                    {userRole === "volunteer" && (
+                        <>
+                            <li><NavLink to="/dashboard/profile">Volanteer Profile</NavLink></li>
+                            {/* Add other volunteer routes here */}
+                        </>
+                    )}
+                    {userRole === "donor" && (
+                        <>
+                            <li><NavLink to="/dashboard/profile"> Doner Profile</NavLink></li>
+
+                            {/* Add other donor routes here */}
+                        </>
+                    )}
                 </ul>
 
             </div>

@@ -91,7 +91,8 @@ const Register = () => {
                                 district: data.district,
                                 upazila: data.upazila,
                                 avater: res.data.data.display_url,
-                                status: "active"
+                                status: "active",
+                                userRole: "doner"
                             }
                             axiosPublic.post('/users', userInfo)
                                 .then(res => {

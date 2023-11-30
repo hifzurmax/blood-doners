@@ -5,6 +5,8 @@ import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import Dashboard from "../Layouts/Dashboard";
 import Profile from "../pages/Dashboard/Profile";
+import AdminHome from "../pages/Dashboard/AdminHome";
+import AllUsers from "../pages/Dashboard/AllUsers";
 
 export const router = createBrowserRouter([
     {
@@ -29,10 +31,21 @@ export const router = createBrowserRouter([
         path: 'dashboard',
         element: <Dashboard></Dashboard>,
         children: [
+            
             {
                 path: 'profile',
                 element: <Profile></Profile>
             },
+
+            // Admin routes
+            {
+                path: '',
+                element: <AdminHome></AdminHome>
+            }, 
+            {
+                path: 'all-users',
+                element: <AllUsers></AllUsers>
+            }, 
         ]
     }
 ]);
