@@ -3,7 +3,8 @@ import Root from "../Layouts/Root";
 import Home from "../pages/Home/Home";
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
-import PrivateRoute from "./PrivateRoutes";
+import Dashboard from "../Layouts/Dashboard";
+import Profile from "../pages/Dashboard/Profile";
 
 export const router = createBrowserRouter([
     {
@@ -12,7 +13,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <PrivateRoute><Home></Home></PrivateRoute>
+                element: <Home></Home>
             },
             {
                 path: '/register',
@@ -24,4 +25,14 @@ export const router = createBrowserRouter([
             },
         ],
     },
+    {
+        path: 'dashboard',
+        element: <Dashboard></Dashboard>,
+        children: [
+            {
+                path: 'profile',
+                element: <Profile></Profile>
+            },
+        ]
+    }
 ]);
