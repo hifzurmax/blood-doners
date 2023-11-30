@@ -1,9 +1,25 @@
 import { NavLink, Outlet } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { useEffect, useState } from "react";
+import DashboardNav from "../pages/Dashboard/DashboardNav";
 
 
 const Dashboard = () => {
-    // TODO: Replace this with the actual user role fetched from the database
-    const userRole = "admin"; // For demonstration purposes, assuming the user is an admin
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        axiosSecure.get(`/users?email=${user?.email}`)
+            .then(res => {
+                setUserData(res.data);
+            })
+            .catch(error => console.error('Error fetching user data:', error));
+    }, [axiosSecure, user]);
+    console.log(userData);
+    const Role = userData?.userRole;
+
     return (
         <div className="drawer lg:drawer-open max-w-7xl mx-auto">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -13,6 +29,7 @@ const Dashboard = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </label>
                 {/* Page content here */}
+                <DashboardNav></DashboardNav>
                 <Outlet></Outlet>
 
             </div>
@@ -20,7 +37,7 @@ const Dashboard = () => {
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu p-4 pt-10 space-y-1 w-64 min-h-full bg-main text-white font-bold text-lg ">
                     {/* Conditional rendering based on user role */}
-                    {userRole === "admin" && (
+                    {Role === "admin" && (
                         <>
                             <li><NavLink to="/dashboard/profile">Admin Profile</NavLink></li>
                             <li><NavLink to="/dashboard/all-users">All Users</NavLink></li>
@@ -31,17 +48,18 @@ const Dashboard = () => {
 
                         </>
                     )}
-                    {userRole === "volunteer" && (
+                    {Role === "volunteer" && (
                         <>
                             <li><NavLink to="/dashboard/profile">Volanteer Profile</NavLink></li>
                             {/* Add other volunteer routes here */}
                         </>
                     )}
-                    {userRole === "donor" && (
+                    {Role === "donor" && (
                         <>
-                            <li><NavLink to="/dashboard/profile"> Doner Profile</NavLink></li>
+                            <li><NavLink to="/dashboard/profile">Doner Profile</NavLink></li>
+                            <li><NavLink to="/dashboard/donation-request"> Donation Request</NavLink></li>
 
-                            {/* Add other donor routes here */}
+                            
                         </>
                     )}
                 </ul>

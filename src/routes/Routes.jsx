@@ -7,6 +7,7 @@ import Dashboard from "../Layouts/Dashboard";
 import Profile from "../pages/Dashboard/Profile";
 import AdminHome from "../pages/Dashboard/AdminHome";
 import AllUsers from "../pages/Dashboard/AllUsers";
+import DonationRequest from "../pages/Dashboard/DonationRequest";
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
             {
                 path: 'profile',
                 element: <Profile></Profile>
+            },
+            {
+                path: 'donation-request',
+                element: <DonationRequest></DonationRequest>
             },
 
             // Admin routes
