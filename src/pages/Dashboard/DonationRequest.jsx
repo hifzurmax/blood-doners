@@ -1,18 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useUserRole from "../../hooks/useUserRole";
 
 const DonationRequest = () => {
     const [districts, setDistricts] = useState([]);
     const [upazila, setUpazila] = useState([]);
-    const { register, handleSubmit } = useForm();
-
+    const { user } = useAuth();
+    const axiosPublic = useAxiosPublic();
+    const { userStatus } = useUserRole();
 
     useEffect(() => {
         const fetchDistricts = async () => {
             try {
-                const response = await axios.get('district.json');
+                const response = await axios.get('/district.json');
                 const districtsData = response.data;
                 setDistricts(districtsData);
             } catch (error) {
@@ -22,7 +25,7 @@ const DonationRequest = () => {
 
         const fetchUpazila = async () => {
             try {
-                const response = await axios.get('upazila.json');
+                const response = await axios.get('/upazila.json');
                 const upazilaData = response.data;
                 setUpazila(upazilaData);
             } catch (error) {
@@ -30,47 +33,98 @@ const DonationRequest = () => {
             }
         };
 
-        // Call the async functions
         fetchDistricts();
         fetchUpazila();
     }, []);
 
-    const onSubmit = async () => {
-        console.log('hello');
-    }
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        const data = new FormData(e.target);
+
+        try {
+            const requestInfo = {
+                requesterEmail: user?.email,
+                requesterName: user?.displayName,
+                recipientName: data.get('recipient-name'),
+                bloodGroup: data.get('group'),
+                district: data.get('district'),
+                upazila: data.get('upazila'),
+                hospitalName: data.get('hospitalName'),
+                fullAddress: data.get('fullAddress'),
+                donationDate: data.get('donationDate'),
+                donationTime: data.get('donationTime'),
+                requestMessage: data.get('requestMessage'),
+                status: "pending",
+            };
+
+            const response = await axiosPublic.post('/request', requestInfo);
+
+            if (response.data.insertedId) {
+                // show success popup
+                e.target.reset();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${requestInfo.recipientName} request is added.`,
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            } else {
+
+                console.error('Request was not successful:', response.data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                });
+            }
+        } catch (error) {
+
+            console.error('Error while submitting request:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            });
+        }
+    };
 
     return (
         <div className="bg-third mb-16 w-full">
 
             <div className="flex-col max-w-6xl bg-white p-24  mx-auto">
-                <div className="text-center">
-                    <h1 className="text-5xl font-poppins font-bold">Create Your Account</h1>
+                <div className="text-center mb-8">
+                    <h1 className="text-5xl font-poppins font-bold">Create a Donation Request</h1>
                 </div>
                 <div className="flex-shrink-0 w-full">
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={(e) => onSubmit(e)}>
                         <div className="flex gap-6">
                             <div className="form-control w-1/2">
                                 <label className="label">
-                                    <span className="label-text">Email*</span>
+                                    <span className="label-text">Requester Email*</span>
                                 </label>
                                 <input
+                                    disabled
                                     type="text"
-                                    name="email"
-                                    placeholder="Your Email"
+                                    name="requester-email"
+                                    defaultValue={user?.email}
                                     className="input input-bordered"
-                                    {...register("email", { required: true })}
+
                                 />
                             </div>
                             <div className="form-control w-1/2">
                                 <label className="label">
-                                    <span className="label-text">Name*</span>
+                                    <span className="label-text">Requester Name*</span>
                                 </label>
                                 <input
+                                    disabled
                                     type="text"
-                                    name="name"
-                                    placeholder="Name"
+                                    name="requester-name"
+                                    defaultValue={user?.displayName}
                                     className="input input-bordered"
-                                    {...register("name", { required: true })} />
+
+                                />
                             </div>
                         </div>
 
@@ -79,23 +133,23 @@ const DonationRequest = () => {
 
                             <div className="form-control w-1/2">
                                 <label className="label">
-                                    <span className="label-text">Avater*</span>
+                                    <span className="label-text">Recipient Name</span>
                                 </label>
                                 <input
-                                    type="file"
-                                    name="avater"
-                                    className="file-input file-input-bordered"
-                                    {...register("avater", { required: true })}
+                                    type="text"
+                                    name="recipient-name"
+                                    placeholder="Recipient Name"
+                                    className="input input-bordered"
                                 />
                             </div>
                             <div className="form-control w-1/2">
                                 <label className="label">
-                                    <span className="label-text">Blood Group*</span>
+                                    <span className="label-text">Blood Group Needed*</span>
                                 </label>
 
                                 <label>
-                                    <select {...register("group", { required: true })} name="group" className="select select-bordered w-full" defaultValue="">
-                                        <option disabled value="">Your Blood Group?</option>
+                                    <select name="group" className="select select-bordered w-full" defaultValue="">
+                                        <option disabled value="">Blood Group Needed?</option>
                                         <option value="A+">A+</option>
                                         <option value="A-">A-</option>
                                         <option value="B+">B+</option>
@@ -115,10 +169,10 @@ const DonationRequest = () => {
 
                             <div className="form-control w-1/2">
                                 <label className="label">
-                                    <span className="label-text">District*</span>
+                                    <span className="label-text">Recipient District*</span>
                                 </label>
-                                <select {...register("district", { required: true })} name="district" className="select select-bordered w-full" defaultValue="">
-                                    <option disabled value="">Select your District</option>
+                                <select name="district" className="select select-bordered w-full" defaultValue="">
+                                    <option disabled value="">Select District</option>
                                     {districts.map(district => (
                                         <option key={district.id} value={district.name}>
                                             {district.name}
@@ -131,10 +185,10 @@ const DonationRequest = () => {
 
                             <div className="form-control w-1/2">
                                 <label className="label">
-                                    <span className="label-text">Upazila*</span>
+                                    <span className="label-text">Recipient Upazila*</span>
                                 </label>
-                                <select {...register("upazila", { required: true })} className="input input-bordered" required name="upazila" defaultValue="">
-                                    <option disabled value="">Select Your Upazila</option>
+                                <select className="input input-bordered" required name="upazila" defaultValue="">
+                                    <option disabled value="">Select Upazila</option>
                                     {upazila.map(upazila => (
                                         <option key={upazila.id} value={upazila.name}>
                                             {upazila.name}
@@ -148,43 +202,81 @@ const DonationRequest = () => {
                         <div className="flex gap-6">
                             <div className="form-control w-1/2">
                                 <label className="label">
-                                    <span className="label-text">Password*</span>
+                                    <span className="label-text">Hospital Name*</span>
                                 </label>
                                 <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="Your Password"
+                                    type="text"
+                                    name="hospitalName"
+                                    placeholder="Hospital Name"
                                     className="input input-bordered"
-                                    {...register("password", { required: true })}
-                                    required />
+
+                                />
                             </div>
                             <div className="form-control w-1/2">
                                 <label className="label">
-                                    <span className="label-text">Confirm Password*</span>
+                                    <span className="label-text">Full Address*</span>
                                 </label>
                                 <input
-                                    type="password"
-                                    name="confirm-password"
-                                    placeholder="Confirm Password"
+                                    type="text"
+                                    name="fullAddress"
+                                    placeholder="Full Address"
                                     className="input input-bordered"
-                                />
 
+                                />
                             </div>
 
+                        </div>
+                        <div className="flex gap-6">
+                            <div className="form-control w-1/2">
+                                <label className="label">
+                                    <span className="label-text">Donation Date*</span>
+                                </label>
+                                <input
+                                    type="date"
+                                    name="donationDate"
+                                    className="input input-bordered"
+
+                                />
+                            </div>
+                            <div className="form-control w-1/2">
+                                <label className="label">
+                                    <span className="label-text">Donation Time*</span>
+                                </label>
+                                <input
+                                    type="time"
+                                    name="donationTime"
+                                    className="input input-bordered"
+
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Request Message*</span>
+                            </label>
+                            <textarea
+                                name="requestMessage"
+                                placeholder="Enter your request message"
+                                className="textarea textarea-bordered h-24"
+
+                            ></textarea>
                         </div>
 
 
                         <div className="form-control mt-6">
-                            <button className="btn text-white hover:text-gray-800 btn-block bg-main">Register</button>
+                            {userStatus === "active" ?
+                                <button type="submit" className="btn text-white hover:text-gray-800 btn-block bg-main">
+                                    Add Request
+                                </button>
+                                :
+                                <button disabled type="submit" className="btn text-white hover:text-gray-800 btn-block bg-main">
+                                    You Are Not Allowed 
+                                </button>
+                            }
                         </div>
                     </form>
-                    <p className="text-center text-red-700 text-base mb-6"></p>
 
-                    <div className="flex justify-center gap-3 items-center">
-                        <p className="font-bold text-lg">Signin With</p>
-                        {/* <button onClick={handleGoogleLogin} className="btn bg-white border-main hover:bg-main px-16 border hover:shadow-md text-main hover:text-white"><img className="h-5 w-5" src={goo} alt="" /> Google</button> */}
-                    </div>
-                    <h2 className="text-center mt-4 font-semibold">Already have an account? <Link className="text-main font-bold" to="/login">Login</Link></h2>
                 </div>
             </div>
         </div>

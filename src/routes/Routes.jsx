@@ -8,6 +8,10 @@ import Profile from "../pages/Dashboard/Profile";
 import AdminHome from "../pages/Dashboard/AdminHome";
 import AllUsers from "../pages/Dashboard/AllUsers";
 import DonationRequest from "../pages/Dashboard/DonationRequest";
+import DonorHome from "../pages/Dashboard/DonorHome";
+import VolunteerHome from "../pages/Dashboard/VolunteerHome";
+import DonorRequests from "../pages/Dashboard/DonorRequests";
+import AllDonationRequests from "../pages/Dashboard/AllDonationRequests";
 
 export const router = createBrowserRouter([
     {
@@ -32,7 +36,6 @@ export const router = createBrowserRouter([
         path: 'dashboard',
         element: <Dashboard></Dashboard>,
         children: [
-            
             {
                 path: 'profile',
                 element: <Profile></Profile>
@@ -41,15 +44,30 @@ export const router = createBrowserRouter([
                 path: 'donation-request',
                 element: <DonationRequest></DonationRequest>
             },
-
-            // Admin routes
             {
-                path: '',
+                path: 'adminHome',
                 element: <AdminHome></AdminHome>
-            }, 
+            },
+            {
+                path: 'donorHome',
+                element: <DonorHome></DonorHome>
+            },
+            {
+                path: 'volunteerHome',
+                element: <VolunteerHome></VolunteerHome>
+            },
+            {
+                path: 'my-donation-requests',
+                element: <DonorRequests></DonorRequests>
+            },
+
             {
                 path: 'all-users',
                 element: <AllUsers></AllUsers>
+            }, 
+            {
+                path: 'all-donation-requests',
+                element: <AllDonationRequests></AllDonationRequests>
             }, 
         ]
     }

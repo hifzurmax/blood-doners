@@ -47,7 +47,7 @@ const Register = () => {
     const imageHostingKey = import.meta.env.VITE_IMAGE_KEY;
     const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
-    // const { register, handleSubmit } = useForm();
+
     const onSubmit = async (data) => {
         const imageFile = new FormData();
         imageFile.append("image", data.avater[0]);
@@ -92,7 +92,7 @@ const Register = () => {
                                 upazila: data.upazila,
                                 avater: res.data.data.display_url,
                                 status: "active",
-                                userRole: "doner"
+                                userRole: "donor"
                             }
                             axiosPublic.post('/users', userInfo)
                                 .then(res => {
@@ -115,6 +115,7 @@ const Register = () => {
                 <div className="text-center">
                     <h1 className="text-5xl font-poppins font-bold">Create Your Account</h1>
                 </div>
+                <h2 className="text-center text-white p-1 mt-4 bg-second w-64 mx-auto font-semibold">Already a Donor? <Link className="font-bold" to="/login">Login</Link></h2>
                 <div className="flex-shrink-0 w-full">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="flex gap-6">
@@ -153,7 +154,7 @@ const Register = () => {
                                 <input
                                     type="file"
                                     name="avater"
-                                    className="file-input file-input-bordered"
+                                    className="file-input file-input-bordered "
                                     {...register("avater", { required: true })}
                                 />
                             </div>
@@ -249,16 +250,15 @@ const Register = () => {
 
 
                         <div className="form-control mt-6">
-                            <button className="btn text-white hover:text-gray-800 btn-block bg-main">Register</button>
+                            <button className="btn text-white hover:text-gray-800 btn-block bg-second">Register</button>
                         </div>
                     </form>
-                    <p className="text-center text-red-700 text-base mb-6"></p>
 
                     <div className="flex justify-center gap-3 items-center">
-                        <p className="font-bold text-lg">Signin With</p>
+                        {/* <p className="font-bold text-lg">Signin With</p> */}
                         {/* <button onClick={handleGoogleLogin} className="btn bg-white border-main hover:bg-main px-16 border hover:shadow-md text-main hover:text-white"><img className="h-5 w-5" src={goo} alt="" /> Google</button> */}
                     </div>
-                    <h2 className="text-center mt-4 font-semibold">Already have an account? <Link className="text-main font-bold" to="/login">Login</Link></h2>
+                    
                 </div>
             </div>
         </div>

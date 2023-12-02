@@ -15,9 +15,9 @@ const Profile = () => {
             })
             .catch(error => console.error('Error fetching user data:', error));
     }, [axiosPublic, user]);
-    console.log(userData);
+    
     return (
-        <div className="md:flex md:mt-10 md:mr-4">
+        <div className="md:flex md:mt-4 md:mr-4">
             <div className="hero min-h-[32vh] md:w-1/3 md:ml-4" style={{ backgroundImage: 'url(https://daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.jpg)' }}>
                 <div className="hero-overlay bg-opacity-60"></div>
                 <div className="hero-content text-center text-neutral-content">

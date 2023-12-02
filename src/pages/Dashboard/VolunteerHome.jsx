@@ -1,12 +1,10 @@
 
-import useAuth from "../../hooks/useAuth";
-import { FaHandHoldingHeart, FaSackDollar, FaUsers } from "react-icons/fa6";
-
-const AdminHome = () => {
-    const { user } = useAuth();
-    console.log(user);
+import { FaHandHoldingHeart, FaUsers } from 'react-icons/fa';
+import { FaSackDollar } from 'react-icons/fa6';
 
 
+
+const VolunteerHome = () => {
     return (
         <div className="space-y-4 m-4">
             <div className="flex flex-col lg:flex-row stats shadow">
@@ -40,4 +38,4 @@ const AdminHome = () => {
     );
 };
 
-export default AdminHome;
+export default VolunteerHome;
