@@ -4,12 +4,13 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { FaEye, FaPen, FaTrash } from "react-icons/fa6";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 const DonorHome = () => {
     const { user } = useAuth();
 
     const axiosSecure = useAxiosSecure();
-    const { data: requests = [] } = useQuery({
+    const { data: requests = [], refetch } = useQuery({
         queryKey: ['requests'],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -17,6 +18,40 @@ const DonorHome = () => {
             return res.data;
         }
     })
+
+    const handleDone = (request) => {
+        axiosSecure.patch(`/done/${request._id}`)
+            .then(res => {
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "Blocked",
+                        title: "User succesfully blocked",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            })
+    }
+    const handleCancel = (request) => {
+        axiosSecure.patch(`/cancel/${request._id}`)
+            .then(res => {
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "Blocked",
+                        title: "User succesfully blocked",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            })
+    }
+
     return (
         <div className="md:ml-4 md:mr-4">
             <h3 className="text-main font-bold text-center m-4 text-xl">My Recent Requests</h3>
@@ -72,8 +107,8 @@ const DonorHome = () => {
                                 </td>
                                 {request.status === "inprogress" ?
                                     <td className="border font-medium w-32 border-main ">
-                                        <button className="btn btn-xs bg-main mr-1 text-white">Done</button>
-                                        <button className="btn btn-xs bg-main text-white">Cancel</button>
+                                        <button onClick={() => handleDone(request)} className="btn btn-xs bg-main mr-1 text-white">Done</button>
+                                        <button onClick={() => handleCancel(request)}  className="btn btn-xs bg-main text-white">Cancel</button>
 
                                     </td>
                                     :
