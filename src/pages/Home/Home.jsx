@@ -1,9 +1,15 @@
+import About from "./About";
+import AvailableDonors from "./AvailableDonors";
 import Banner from "./Banner";
+import Contact from "./Contact";
 
 const Home = () => {
     return (
-        <div className="max-w-6xl mx-auto">
+        <div className="">
             <Banner></Banner>
+            <AvailableDonors></AvailableDonors>
+            <About></About>
+            <Contact></Contact>
         </div>
     );
 };

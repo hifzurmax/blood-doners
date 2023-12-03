@@ -14,6 +14,19 @@ const Navbar = () => {
     }
 
     const navLinks = <>
+        <NavLink to="/">
+            <li className="mr-10 font-bold">
+                <h2
+
+                    className={({ isActive, isPending }) =>
+                        isPending ? "pending" : isActive ? "text-base font-bold text-second" : "text-base font-bold text-second"
+                    }
+                >
+                    Home
+                </h2>
+            </li>
+        </NavLink>
+        <NavLink to="/donors">
         <li className="mr-10 font-bold">
             <h2
 
@@ -21,9 +34,11 @@ const Navbar = () => {
                     isPending ? "pending" : isActive ? "text-base font-bold text-second" : "text-base font-bold text-second"
                 }
             >
-                Home
+                Donors
             </h2>
         </li>
+        </NavLink>
+        <NavLink to="/all-requests">
         <li className="mr-10 font-bold">
             <h2
 
@@ -31,19 +46,11 @@ const Navbar = () => {
                     isPending ? "pending" : isActive ? "text-base font-bold text-second" : "text-base font-bold text-second"
                 }
             >
-                Blog
+                 Blood Donation requests
             </h2>
         </li>
-        <li className="mr-10 font-bold">
-            <h2
-
-                className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "text-base font-bold text-second" : "text-base font-bold text-second"
-                }
-            >
-                About Us
-            </h2>
-        </li>
+        </NavLink>
+       
         <li className="mr-10 font-bold">
             <h2
 

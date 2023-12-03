@@ -58,13 +58,11 @@ const DonorHome = () => {
                                     {request.status}
                                 </td>
                                 <td className="border font-normal border-main">
-                                    {request.status === "inprogress" ?
+                                    {request.status === "inprogress" &&
                                         <>
-                                            <h2>Name: {request.requesterName}</h2> <br />
-                                            <h2>Email: {request.requesterEmail}</h2>
+                                            <h2>{request.requesterName}</h2>
+                                            <h2>{request.requesterEmail}</h2>
                                         </>
-                                        :
-                                        "Not inprogress"
                                     }
                                 </td>
                                 <td className="flex pt-2 border-main">

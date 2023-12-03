@@ -58,10 +58,10 @@ const DonorRequests = () => {
                                 <td className="border font-normal border-main">
 
                                     {
-                                        request.status === "inprogress" ?
-                                            <h2>Name: {request.requesterName} <br />
-                                                <h2>Email: {request.requesterEmail}</h2>
-                                            </h2> : 'Hidden'
+                                        request.status === "inprogress" &&
+                                        <h2>{request.donorName}
+                                            <h2>{request.donorEmail}</h2>
+                                        </h2>
                                     }
 
 

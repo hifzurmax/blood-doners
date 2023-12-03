@@ -66,8 +66,9 @@ const AllDonationRequests = () => {
 
                                 </td>
                                 {Role === "volunteer" ?
-                                    <td className="flex pt-2 text-second">                                       
-                                        <button className="btn btn-sm"><FaEye className="text-second"></FaEye></button>                                       
+                                    <td className="flex pt-2 w-14 ml-3 text-center text-second">
+                                        <button className="btn btn-sm"><FaEye className="text-second text-lg"></FaEye >
+                                        </button>
                                     </td>
                                     :
                                     <td className="flex pt-2 text-second">

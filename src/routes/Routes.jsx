@@ -12,6 +12,10 @@ import DonorHome from "../pages/Dashboard/DonorHome";
 import VolunteerHome from "../pages/Dashboard/VolunteerHome";
 import DonorRequests from "../pages/Dashboard/DonorRequests";
 import AllDonationRequests from "../pages/Dashboard/AllDonationRequests";
+import Donors from "../pages/DonorsSearch/Donors";
+import AllRequests from "../pages/AllRequests/AllRequests";
+import RequestDetails from "../pages/AllRequests/RequestDetails";
+
 
 export const router = createBrowserRouter([
     {
@@ -29,6 +33,19 @@ export const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login></Login>
+            },
+            {
+                path: '/donors',
+                element: <Donors></Donors>
+            },
+            {
+                path: '/all-requests',
+                element: <AllRequests></AllRequests>
+            },
+            {
+                path: '/all-requests/:id',
+                element: <RequestDetails></RequestDetails>,
+                loader: ({params}) => fetch(`http://localhost:5000/all-requests/${params.id}`)
             },
         ],
     },
