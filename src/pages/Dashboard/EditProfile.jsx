@@ -1,20 +1,15 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
-import { updateProfile } from "firebase/auth";
 
-const Register = () => {
+const EditProfile = () => {
     const [districts, setDistricts] = useState([]);
     const [upazila, setUpazila] = useState([]);
-    const { createUser } = useAuth();
-    const axiosPublic = useAxiosPublic();
-    
+
     const { register, handleSubmit } = useForm();
 
-    
+
 
     useEffect(() => {
         axios.get('district.json')
@@ -38,68 +33,9 @@ const Register = () => {
             });
     }, []);
 
-    const imageHostingKey = import.meta.env.VITE_IMAGE_KEY;
-    const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
-
-
-    const onSubmit = async (data) => {
-        const imageFile = new FormData();
-        imageFile.append("image", data.avater[0]);
-        const res = await axios.post(imageHostingAPI, imageFile, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        if (res.data.success) {
-
-            // console.log("Confirm Password:", confirmPassword);
-
-            // if (data.password === confirmPassword) {
-            //     createUser(data.email, data.password)
-            //         .then((result) => {
-            //             const loggedUser = result.user;
-            //             console.log(loggedUser);
-            //         });
-            // } else {
-            //     setErrorMessage("Passwords do not match");
-            //     console.log(errorMessage); // Add this line
-            //     setError("confirm-password", {
-            //         type: "manual",
-            //         message: "Passwords do not match",
-            //     });
-            // }
-            createUser(data.email, data.password)
-                .then(result => {
-                    const loggedUser = result.user;
-                    console.log(loggedUser);
-                    updateProfile(loggedUser, {
-                        displayName: data.name,
-                        photoURL: res.data.data.display_url
-                    })
-                        .then(() => {
-                            console.log('test', data.name);
-                            const userInfo = {
-                                name: data.name,
-                                email: data.email,
-                                bloodGroup: data.group,
-                                district: data.district,
-                                upazila: data.upazila,
-                                avater: res.data.data.display_url,
-                                status: "active",
-                                userRole: "donor"
-                            }
-                            axiosPublic.post('/users', userInfo)
-                                .then(res => {
-                                    if (res.data.insertedId) {
-                                        console.log('user data sent to database')
-                                        console.log('updated user', loggedUser);
-                                    }
-                                })
-                        })
-                })
-        }
+    const onSubmit = async () => {     
+      
     }
-
     return (
         <div className="bg-third mb-16 w-full">
             {/* <Helmet>
@@ -107,7 +43,7 @@ const Register = () => {
             </Helmet> */}
             <div className="flex-col max-w-6xl bg-white p-24  mx-auto">
                 <div className="text-center">
-                    <h1 className="text-5xl font-poppins font-bold">Create Your Account</h1>
+                    <h1 className="text-5xl font-poppins font-bold">Update Your Account</h1>
                 </div>
                 <h2 className="text-center text-white p-1 mt-4 bg-second w-64 mx-auto font-semibold">Already a Donor? <Link className="font-bold" to="/login">Login</Link></h2>
                 <div className="flex-shrink-0 w-full">
@@ -183,7 +119,7 @@ const Register = () => {
                                 </label>
                                 <select {...register("district", { required: true })} name="district" className="select select-bordered w-full" defaultValue="">
                                     <option disabled value="">Select your District</option>
-                                    {districts.map(district => (
+                                    {districts?.map(district => (
                                         <option key={district.id} value={district.name}>
                                             {district.name}
                                         </option>
@@ -199,7 +135,7 @@ const Register = () => {
                                 </label>
                                 <select {...register("upazila", { required: true })} className="input input-bordered" required name="upazila" defaultValue="">
                                     <option disabled value="">Select Your Upazila</option>
-                                    {upazila.map(upazila => (
+                                    {upazila?.map(upazila => (
                                         <option key={upazila.id} value={upazila.name}>
                                             {upazila.name}
                                         </option>
@@ -252,11 +188,11 @@ const Register = () => {
                         {/* <p className="font-bold text-lg">Signin With</p> */}
                         {/* <button onClick={handleGoogleLogin} className="btn bg-white border-main hover:bg-main px-16 border hover:shadow-md text-main hover:text-white"><img className="h-5 w-5" src={goo} alt="" /> Google</button> */}
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     );
 };
 
-export default Register;
+export default EditProfile;

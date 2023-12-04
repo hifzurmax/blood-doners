@@ -3,6 +3,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { FaEye, FaPen, FaTrash } from "react-icons/fa6";
 import Swal from 'sweetalert2'
+import { Link } from "react-router-dom";
 
 const DonorRequests = () => {
     const { user } = useAuth();
@@ -16,6 +17,37 @@ const DonorRequests = () => {
             return res.data;
         }
     })
+
+    const handleDelete = (request) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to remove the job",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, remove it!'
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axiosSecure.delete(`/requets/${request._id}`)
+                        .then(res => {
+                            if (res.data.deletedCount > 0) {
+                                refetch();
+                                Swal.fire(
+                                    'Removed!',
+                                    'The request is removed',
+                                    'success'
+                                )
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+            })
+
+    }
 
     const handleDone = (request) => {
         axiosSecure.patch(`/done/${request._id}`)
@@ -93,7 +125,7 @@ const DonorRequests = () => {
                                 <td className="border font-normal border-main">
 
                                     {
-                                        request.status === "inprogress" &&
+                                        request.requesterName &&
                                         <h2>{request.donorName}
                                             <h2>{request.donorEmail}</h2>
                                         </h2>
@@ -102,9 +134,16 @@ const DonorRequests = () => {
 
                                 </td>
                                 <td className="flex pt-2">
-                                    <button className="btn btn-sm"><FaPen></FaPen></button>
-                                    <button className="btn btn-sm"><FaEye></FaEye></button>
-                                    <button className="btn btn-sm"><FaTrash /></button>
+                                    <Link to={`/dashboard/updaterequest/${request?._id}`}>
+                                        <button className="btn btn-sm">
+                                            <FaPen className="text-second"></FaPen>
+                                        </button>
+                                    </Link>
+                                    <button className="btn btn-sm"><FaEye className="text-second"></FaEye></button>
+                                    <button
+                                        onClick={() => handleDelete(request)}
+                                        className="btn btn-sm">
+                                        <FaTrash className="text-second" /></button>
                                 </td>
 
                                 {request.status === "inprogress" ?

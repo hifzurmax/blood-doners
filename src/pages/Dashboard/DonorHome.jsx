@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { FaEye, FaPen, FaTrash } from "react-icons/fa6";
 import { FaArrowCircleRight } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Swal from 'sweetalert2'
 
 const DonorHome = () => {
@@ -18,6 +18,37 @@ const DonorHome = () => {
             return res.data;
         }
     })
+
+    const handleDelete = (request) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to remove the job",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, remove it!'
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axiosSecure.delete(`/requets/${request._id}`)
+                        .then(res => {
+                            if (res.data.deletedCount > 0) {
+                                refetch();
+                                Swal.fire(
+                                    'Removed!',
+                                    'The job is removed',
+                                    'success'
+                                )
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+            })
+
+    }
 
     const handleDone = (request) => {
         axiosSecure.patch(`/done/${request._id}`)
@@ -93,7 +124,7 @@ const DonorHome = () => {
                                     {request.status}
                                 </td>
                                 <td className="border font-normal border-main">
-                                    {request.status === "inprogress" &&
+                                    {request.requesterName &&
                                         <>
                                             <h2>{request.requesterName}</h2>
                                             <h2>{request.requesterEmail}</h2>
@@ -101,14 +132,21 @@ const DonorHome = () => {
                                     }
                                 </td>
                                 <td className="flex pt-2 border-main">
-                                    <button className="btn btn-sm"><FaPen></FaPen></button>
-                                    <button className="btn btn-sm"><FaEye></FaEye></button>
-                                    <button className="btn btn-sm"><FaTrash /></button>
+                                    <Link to={`/dashboard/updaterequest/${request?._id}`}>
+                                        <button className="btn btn-sm">
+                                            <FaPen className="text-second"></FaPen>
+                                        </button>
+                                    </Link>
+                                    <button className="btn btn-sm"><FaEye className="text-second"></FaEye></button>
+                                    <button
+                                        onClick={() => handleDelete(request)}
+                                        className="btn btn-sm">
+                                        <FaTrash className="text-second" /></button>
                                 </td>
                                 {request.status === "inprogress" ?
                                     <td className="border font-medium w-32 border-main ">
                                         <button onClick={() => handleDone(request)} className="btn btn-xs bg-main mr-1 text-white">Done</button>
-                                        <button onClick={() => handleCancel(request)}  className="btn btn-xs bg-main text-white">Cancel</button>
+                                        <button onClick={() => handleCancel(request)} className="btn btn-xs bg-main text-white">Cancel</button>
 
                                     </td>
                                     :

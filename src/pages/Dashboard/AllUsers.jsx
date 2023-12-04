@@ -18,37 +18,37 @@ const AllUsers = () => {
 
     const blockUser = (user) => {
         axiosSecure.patch(`/block/${user._id}`)
-        .then(res => {
-            console.log(res.data);
-            if (res.data.modifiedCount > 0) {
-                refetch();
-                Swal.fire({
-                    position: "top-end",
-                    icon: "Blocked",
-                    title: "User succesfully blocked",
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-            }
-        })
+            .then(res => {
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "Blocked",
+                        title: "User succesfully blocked",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            })
 
     };
 
     const unblockUser = (user) => {
         axiosSecure.patch(`/unblock/${user._id}`)
-        .then(res => {
-            console.log(res.data);
-            if (res.data.modifiedCount > 0) {
-                refetch();
-                Swal.fire({
-                    position: "top-end",
-                    icon: "Blocked",
-                    title: "User succesfully unblocked",
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-            }
-        })
+            .then(res => {
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "Blocked",
+                        title: "User succesfully unblocked",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            })
 
     };
 
@@ -71,24 +71,24 @@ const AllUsers = () => {
 
     const makeAdmin = (user) => {
         axiosSecure.patch(`/make-admin/${user._id}`)
-        .then(res => {
-            console.log(res.data);
-            if (res.data.modifiedCount > 0) {
-                refetch();
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Your work has been saved",
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-            }
-        })
+            .then(res => {
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            })
     };
     return (
         <div className="mx-4">
-            All Users: {users.length}
 
+            <h3 className="text-main font-bold text-center m-4 text-xl">All Users: {users.length}</h3>
             <table className=" w-full border border-main">
                 {/* head */}
                 <thead className="border border-main">
@@ -148,7 +148,7 @@ const AllUsers = () => {
                                             {(user.userRole === 'donor' || user.userRole === 'volunteer') && (
                                                 <button className="btn btn-sm" onClick={() => makeAdmin(user)}>Make Admin</button>
                                             )}
-                                            
+
                                         </ul>
                                     </div>
                                 </th>

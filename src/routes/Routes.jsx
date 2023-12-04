@@ -15,6 +15,8 @@ import AllDonationRequests from "../pages/Dashboard/AllDonationRequests";
 import Donors from "../pages/DonorsSearch/Donors";
 import AllRequests from "../pages/AllRequests/AllRequests";
 import RequestDetails from "../pages/AllRequests/RequestDetails";
+import UpdateDonationRequest from "../pages/Dashboard/UpdateDonationRequest";
+import ViewRequest from "../pages/Dashboard/ViewRequest";
 
 
 export const router = createBrowserRouter([
@@ -45,7 +47,7 @@ export const router = createBrowserRouter([
             {
                 path: '/all-requests/:id',
                 element: <RequestDetails></RequestDetails>,
-                loader: ({params}) => fetch(`http://localhost:5000/all-requests/${params.id}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/all-requests/${params.id}`)
             },
         ],
     },
@@ -81,11 +83,21 @@ export const router = createBrowserRouter([
             {
                 path: 'all-users',
                 element: <AllUsers></AllUsers>
-            }, 
+            },
             {
                 path: 'all-donation-requests',
                 element: <AllDonationRequests></AllDonationRequests>
-            }, 
+            },
+            {
+                path: 'view-request/:id',
+                element: <ViewRequest></ViewRequest>,
+                loader: ({ params }) => fetch(`http://localhost:5000/all-requests/${params.id}`)
+            },
+            {
+                path: 'updaterequest/:id',
+                element: <UpdateDonationRequest></UpdateDonationRequest>,
+                loader: ({ params }) => fetch(`http://localhost:5000/all-requests/${params.id}`)
+            },
         ]
     }
 ]);
