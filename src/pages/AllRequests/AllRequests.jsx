@@ -9,7 +9,7 @@ const AllRequests = () => {
     const { data: requests = [] } = useQuery({
         queryKey: ['requests'],
         queryFn: async () => {
-            const res = await axiosPublic.get(`/all-requests`);
+            const res = await axiosPublic.get(`/pending-requests`);
             return res.data;
         }
     })
@@ -22,18 +22,18 @@ const AllRequests = () => {
 
                     <div className="">
                         <div className="m-12 text-center z-20 text-white">
-                            <h2 className="text-3xl mb-3 font-bold">All Donors</h2>
-                            <h3 className="flex justify-center items-center"><FaHome className="mr-1"></FaHome> Home - All Donors</h3>
+                            <h2 className="text-3xl mb-3 font-bold">All Pending Requests: {requests.length}</h2>
+                            <h3 className="flex justify-center items-center"><FaHome className="mr-1"></FaHome> Home - All All Pending Requests</h3>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
 
             {/* Requests */}
             <div className="max-w-6xl mx-auto">
-                <h2>All Users: {requests.length}</h2>
-                <div className="grid md:grid-cols-3 gap-6">
+                
+                <div className="grid md:grid-cols-3 gap-6 my-16">
                     {
                         requests.map(request => <RequestCard
                             key={request._id}
@@ -41,7 +41,7 @@ const AllRequests = () => {
                         >
 
                         </RequestCard>)
-                           
+
                     }
                 </div>
             </div>

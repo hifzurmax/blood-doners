@@ -124,10 +124,10 @@ const DonorHome = () => {
                                     {request.status}
                                 </td>
                                 <td className="border font-normal border-main">
-                                    {request.requesterName &&
+                                    {request.donorName &&
                                         <>
-                                            <h2>{request.requesterName}</h2>
-                                            <h2>{request.requesterEmail}</h2>
+                                            <h2>{request.donorName}</h2>
+                                            <h2>{request.donorEmail}</h2>
                                         </>
                                     }
                                 </td>
@@ -137,7 +137,11 @@ const DonorHome = () => {
                                             <FaPen className="text-second"></FaPen>
                                         </button>
                                     </Link>
-                                    <button className="btn btn-sm"><FaEye className="text-second"></FaEye></button>
+                                    <Link to={`/dashboard/view-request/${request?._id}`}>
+                                        <button className="btn btn-sm">
+                                            <FaEye className="text-second"></FaEye>
+                                        </button>
+                                    </Link>
                                     <button
                                         onClick={() => handleDelete(request)}
                                         className="btn btn-sm">

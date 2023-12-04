@@ -50,6 +50,18 @@ const Navbar = () => {
             </h2>
         </li>
         </NavLink>
+        <NavLink to="/blogs">
+        <li className="mr-10 font-bold">
+            <h2
+
+                className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "text-base font-bold text-second" : "text-base font-bold text-second"
+                }
+            >
+                 Blogs
+            </h2>
+        </li>
+        </NavLink>
        
         <li className="mr-10 font-bold">
             <h2

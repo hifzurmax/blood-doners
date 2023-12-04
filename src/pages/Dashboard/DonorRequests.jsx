@@ -139,7 +139,11 @@ const DonorRequests = () => {
                                             <FaPen className="text-second"></FaPen>
                                         </button>
                                     </Link>
-                                    <button className="btn btn-sm"><FaEye className="text-second"></FaEye></button>
+                                    <Link to={`/dashboard/view-request/${request?._id}`}>
+                                        <button className="btn btn-sm">
+                                            <FaEye className="text-second"></FaEye>
+                                        </button>
+                                    </Link>
                                     <button
                                         onClick={() => handleDelete(request)}
                                         className="btn btn-sm">

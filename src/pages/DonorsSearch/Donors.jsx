@@ -82,8 +82,8 @@ const Donors = () => {
             </div>
 
             {/* Donors Cards */}
-            <div className="max-w-6xl mx-auto">
-                <h2>All Users: {users.length}</h2>
+            <div className="max-w-6xl mx-auto my-16">
+                <h3 className="text-main font-bold text-center m-4 text-xl">All Donors: {users.length}</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                     {
                         users.map(user =>

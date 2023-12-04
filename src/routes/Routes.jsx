@@ -17,6 +17,9 @@ import AllRequests from "../pages/AllRequests/AllRequests";
 import RequestDetails from "../pages/AllRequests/RequestDetails";
 import UpdateDonationRequest from "../pages/Dashboard/UpdateDonationRequest";
 import ViewRequest from "../pages/Dashboard/ViewRequest";
+import Blogs from "../pages/Blogs/Blogs";
+import AddBlog from "../pages/Dashboard/AddBlog";
+import PrivateRoute from "./PrivateRoutes";
 
 
 export const router = createBrowserRouter([
@@ -41,19 +44,23 @@ export const router = createBrowserRouter([
                 element: <Donors></Donors>
             },
             {
+                path: '/blogs',
+                element: <Blogs></Blogs>
+            },
+            {
                 path: '/all-requests',
                 element: <AllRequests></AllRequests>
             },
             {
                 path: '/all-requests/:id',
-                element: <RequestDetails></RequestDetails>,
-                loader: ({ params }) => fetch(`http://localhost:5000/all-requests/${params.id}`)
+                element: <PrivateRoute><RequestDetails></RequestDetails></PrivateRoute>,
+                loader: ({ params }) => fetch(`https://blood-doners-server.vercel.app/all-requests/${params.id}`)
             },
         ],
     },
     {
         path: 'dashboard',
-        element: <Dashboard></Dashboard>,
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children: [
             {
                 path: 'profile',
@@ -89,14 +96,18 @@ export const router = createBrowserRouter([
                 element: <AllDonationRequests></AllDonationRequests>
             },
             {
+                path: 'add-blog',
+                element: <AddBlog></AddBlog>
+            },
+            {
                 path: 'view-request/:id',
                 element: <ViewRequest></ViewRequest>,
-                loader: ({ params }) => fetch(`http://localhost:5000/all-requests/${params.id}`)
+                loader: ({ params }) => fetch(`https://blood-doners-server.vercel.app/all-requests/${params.id}`)
             },
             {
                 path: 'updaterequest/:id',
                 element: <UpdateDonationRequest></UpdateDonationRequest>,
-                loader: ({ params }) => fetch(`http://localhost:5000/all-requests/${params.id}`)
+                loader: ({ params }) => fetch(`https://blood-doners-server.vercel.app/all-requests/${params.id}`)
             },
         ]
     }

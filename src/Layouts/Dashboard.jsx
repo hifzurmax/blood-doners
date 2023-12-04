@@ -38,7 +38,7 @@ const Dashboard = () => {
 
                             <li className="border"><NavLink to="/dashboard/donation-request"><FaHeart></FaHeart> Create Donation Request</NavLink></li>
 
-                            <li className="border"><NavLink to="/dashboard/content-management"><FaBandcamp></FaBandcamp> Content Management</NavLink></li>
+                            <li className="border"><NavLink to="/dashboard/add-blog"><FaBandcamp></FaBandcamp> Add Blog</NavLink></li>
 
                         </>
                     )}

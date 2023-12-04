@@ -25,12 +25,12 @@ const Login = () => {
             <title>Blood Doners | Register</title>
         </Helmet> */}
             <div className="flex-col max-w-6xl bg-white p-24  mx-auto">
-                <div className="text-center">
-                    <h1 className="text-5xl font-poppins font-bold">Create Your Account</h1>
+                <div className="text-center my-10">
+                    <h1 className="text-5xl font-poppins font-bold">Login Your Account</h1>
                 </div>
-                <div className="flex-shrink-0 w-full">
+                <div className="flex flex-col mx-auto w-1/2">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="form-control w-1/2">
+                        <div className="form-control w-full">
                             <label className="label">
                                 <span className="label-text">Email*</span>
                             </label>
@@ -43,7 +43,7 @@ const Login = () => {
                             />
                         </div>
 
-                        <div className="form-control w-1/2">
+                        <div className="form-control w-full">
                             <label className="label">
                                 <span className="label-text">Password*</span>
                             </label>
@@ -59,16 +59,16 @@ const Login = () => {
 
 
                         <div className="form-control mt-6">
-                            <button className="btn text-white hover:text-gray-800 btn-block bg-main">Register</button>
+                            <button className="btn text-white hover:text-gray-800 btn-block bg-second">Login</button>
                         </div>
                     </form>
                     <p className="text-center text-red-700 text-base mb-6"></p>
 
                     <div className="flex justify-center gap-3 items-center">
-                        <p className="font-bold text-lg">Signin With</p>
+                        {/* <p className="font-bold text-lg">Signin With</p> */}
                         {/* <button onClick={handleGoogleLogin} className="btn bg-white border-main hover:bg-main px-16 border hover:shadow-md text-main hover:text-white"><img className="h-5 w-5" src={goo} alt="" /> Google</button> */}
                     </div>
-                    <h2 className="text-center mt-4 font-semibold">New here? <Link className="text-main font-bold" to="/register">Register</Link></h2>
+                    <h2 className="text-center mt-4 font-semibold">New here? <Link className="text-second font-bold" to="/register">Register</Link></h2>
                 </div>
             </div>
         </div>
