@@ -4,16 +4,19 @@ import { FaEye, FaPen, FaTrash } from "react-icons/fa6";
 import useUserRole from "../../hooks/useUserRole";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const AllDonationRequests = () => {
 
     const { Role } = useUserRole();
 
     const axiosSecure = useAxiosSecure();
+    const [statusFilter, setStatusFilter] = useState('');
     const { data: requests = [], refetch } = useQuery({
-        queryKey: ['requests'],
+        queryKey: ['requests', statusFilter],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/all-requests?`);
+
+            const res = await axiosSecure.get(`/all-requests?status=${statusFilter}`);
             return res.data;
         }
     })
@@ -52,6 +55,14 @@ const AllDonationRequests = () => {
     return (
         <div className="m-4">
             <h3 className="text-main font-bold text-center m-4 text-xl">All Blood Donation Requests</h3>
+            <div className="flex justify-center mb-4">
+                <button onClick={() => setStatusFilter('')} className={`btn btn-sm ${statusFilter === '' ? 'bg-main text-white' : 'bg-gray-300'}`}>All</button>
+                <button onClick={() => setStatusFilter('pending')} className={`btn btn-sm ${statusFilter === 'pending' ? 'bg-main text-white' : 'bg-gray-300'}`}>Pending</button>
+                <button onClick={() => setStatusFilter('inprogress')} className={`btn btn-sm ${statusFilter === 'inprogress' ? 'bg-main text-white' : 'bg-gray-300'}`}>In Progress</button>
+                <button onClick={() => setStatusFilter('done')} className={`btn btn-sm ${statusFilter === 'done' ? 'bg-main text-white' : 'bg-gray-300'}`}>Done</button>
+                <button onClick={() => setStatusFilter('canceled')} className={`btn btn-sm ${statusFilter === 'canceled' ? 'bg-main text-white' : 'bg-gray-300'}`}>Canceled</button>
+            </div>
+
             <table className="w-full border border-main">
                 {/* head */}
                 <thead className="border border-main">

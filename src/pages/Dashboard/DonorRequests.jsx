@@ -4,19 +4,25 @@ import useAuth from "../../hooks/useAuth";
 import { FaEye, FaPen, FaTrash } from "react-icons/fa6";
 import Swal from 'sweetalert2'
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const DonorRequests = () => {
     const { user } = useAuth();
 
     const axiosSecure = useAxiosSecure();
+    // Step 1: Define state variable for status filter
+    const [statusFilter, setStatusFilter] = useState('');
+
     const { data: requests = [], refetch } = useQuery({
-        queryKey: ['requests'],
+        // Step 3: Update useQuery hook to include selected status as a query parameter
+        queryKey: ['requests', statusFilter],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/donor-requests?email=${user?.email}`);
+            // Update API call to include status filter in the query parameters
+            const res = await axiosSecure.get(`/donor-requests?email=${user?.email}&status=${statusFilter}`);
             return res.data;
-        }
-    })
+        },
+    });
 
     const handleDelete = (request) => {
         Swal.fire({
@@ -58,7 +64,7 @@ const DonorRequests = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "Blocked",
-                        title: "User succesfully blocked",
+                        title: "Donation succesfully done",
                         showConfirmButton: false,
                         timer: 1000
                     });
@@ -74,7 +80,7 @@ const DonorRequests = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "Blocked",
-                        title: "User succesfully blocked",
+                        title: "Donation succesfully cancelled",
                         showConfirmButton: false,
                         timer: 1000
                     });
@@ -85,6 +91,15 @@ const DonorRequests = () => {
     return (
         <div className="md:ml-4 md:mr-4">
             <h3 className="text-main font-bold text-center m-4 text-xl">My All Donation Requests</h3>
+
+            <div className="flex justify-center mb-4">
+                <button onClick={() => setStatusFilter('')} className={`btn btn-sm ${statusFilter === '' ? 'bg-main text-white' : 'bg-gray-300'}`}>All</button>
+                <button onClick={() => setStatusFilter('pending')} className={`btn btn-sm ${statusFilter === 'pending' ? 'bg-main text-white' : 'bg-gray-300'}`}>Pending</button>
+                <button onClick={() => setStatusFilter('inprogress')} className={`btn btn-sm ${statusFilter === 'inprogress' ? 'bg-main text-white' : 'bg-gray-300'}`}>In Progress</button>
+                <button onClick={() => setStatusFilter('done')} className={`btn btn-sm ${statusFilter === 'done' ? 'bg-main text-white' : 'bg-gray-300'}`}>Done</button>
+                <button onClick={() => setStatusFilter('canceled')} className={`btn btn-sm ${statusFilter === 'canceled' ? 'bg-main text-white' : 'bg-gray-300'}`}>Canceled</button>
+            </div>
+
             <table className="w-full border border-main">
                 {/* head */}
                 <thead className="border border-main">

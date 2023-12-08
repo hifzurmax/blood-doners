@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -5,7 +6,7 @@ const Footer = () => {
             <div className="mx-auto w-full max-w-6xl p-4 py-6 lg:py-8">
                 <div className="md:flex md:justify-between">
                     <div className="mb-6 md:mb-0">
-                        <img src="https://i.ibb.co/xfbXVzd/logo.png" className="h-8 mr-3" alt="Task Hub Logo" />
+                        <Link to='/'><img src="https://i.ibb.co/xfbXVzd/logo.png" className="h-8 mr-3" alt="Task Hub Logo" /></Link>
                         <form className="flex items-center  mt-6">
                             <div className="relative w-full">
                                 <input type="text" id="voice-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-main focus:border-main block w-full pl-10 p-2.5 " placeholder="Email" required />

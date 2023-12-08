@@ -23,7 +23,7 @@ const Banner = () => {
             <div className="hero-overlay bg-opacity-60"></div>
             <div className="container mx-auto justify-center items-center p-2 md:p-0">
                 <h3 className='leading-snug text-center text-3xl md:text-5xl font-semibold text-white'>A lot of things hurt. <br /><span className='text-second'>Saving lives</span> doesn't have to</h3>
-                <div className="flex my-12 max-w-3xl pl-8 mx-auto gap-2 border border-gray-200 p-2 rounded">
+                <div className="flex flex-col md:flex-row my-12 max-w-3xl pl-8 mx-auto gap-2 border border-gray-200 p-2 rounded">
                     <div className="flex w-64 items-center p-2 ">
                         <FaDroplet className="text-second mr-2 text-4xl" />
                         <select name="group" className="select select-bordered w-full" defaultValue="">
